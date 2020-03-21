@@ -12,7 +12,7 @@ class AppConfigReader():
         if cfgDir:
             cfgFile = cfgDir + "\\tweetsToJSON.properties"
         else:
-            cfgFile = "E:\\Python\\github\\conf\\tweetsToJSON.properties"
+            cfgFile = "E:\\Python\\github\\TwitterStreaming\\conf\\tweetsToJSON.properties"
 
         # Load the CFG file
         self.config.read(cfgFile)

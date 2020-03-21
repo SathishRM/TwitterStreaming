@@ -21,6 +21,7 @@ if __name__ == '__main__':
 
     if 'APP' in appConfigReader.config:
         appCfg = appConfigReader.config['APP']
+        defaultWord = appCfg['DEFAULT_WORD']
         jsonDir = appCfg['JSON_DIR']
         processedDir = appCfg['PROCESSED_FILES']
         jsonMaxSize = int(appCfg['JSON_MAX_SIZE'])
@@ -31,7 +32,7 @@ if __name__ == '__main__':
     # Get the words list to search in tweets
     argParser = argparse.ArgumentParser("List of search words")
     argParser.add_argument("-s", "--searchWords",
-                           help="search words with space separated", default="covid-19")
+                           help="search words with space separated", default=defaultWord)
     # argParser.add_argument()
     args = argParser.parse_args()
     logger.info(f"Going to look for the words {args.searchWords}...")

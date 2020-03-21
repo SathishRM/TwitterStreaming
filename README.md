@@ -1,6 +1,6 @@
 ### Look for tweets with a list of words using Tweepy and capture it in a JSON file.
 
-JSON files will be created upto the size mentioned in properties file. Once it reaches threshold, the file will be moved and a new file will created.
+Tweets are appended to a JSON file upto the size mentioned in the application properties. Once it reaches threshold, the file will be moved and a new file will be created.
 
 Look at the file **requirements.txt** for any external library required by the script. Make sure those are installed first.
 

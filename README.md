@@ -1,4 +1,4 @@
-### Using Tweepy look for the tweets with a list of words and capture it in a JSON file.
+### Look for tweets with a list of words using Tweepy and capture it in a JSON file.
 
 JSON files will be created upto the size mentioned in properties file. Once it reaches threshold, the file will be moved and a new file will created.
 

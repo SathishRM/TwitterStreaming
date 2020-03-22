@@ -57,6 +57,7 @@ class TweetsToJSON(StreamListener):
         '''Writes the message into a JSON file and creates new file when needed'''
         with open(self.fileName, mode='a', encoding="utf-8") as twFile:
             json.dump(twitterDetails, twFile, ensure_ascii=False)
+            twFile.write("\n")
         if int(os.path.getsize(self.fileName)) > self.fileSize:
             logger.info(
                 f"JSON file {self.fileName} has reached the max file size, hence moving to {self.processedDir}")

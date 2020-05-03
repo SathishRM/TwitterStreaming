@@ -1,0 +1,8 @@
+#OS files
+-----------
+__pycache__
+*.pyc
+
+#Other files
+-------------
+*.org

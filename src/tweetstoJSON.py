@@ -1,4 +1,5 @@
 import json
+import time
 from datetime import datetime
 import os
 import shutil
@@ -12,11 +13,13 @@ logger = getAppLogger(__name__)
 class TweetsToJSON(StreamListener):
     '''Listenser class extends from StreamListener parent class'''
 
-    def __init__(self, fileDir, fileSize, processedDir):
+    def __init__(self, fileDir, fileSize, processedDir, timeOut):
+        self.startTime = time.time()
         self.fileDir = fileDir
         self.fileName = fileDir + "\\twitter_" + datetime.today().strftime("%Y%m%d_%H%M%S") + ".json"
         self.fileSize = fileSize
         self.processedDir = processedDir
+        self.timeOut = timeOut
 
     def on_data(self, data):
         try:
@@ -43,6 +46,11 @@ class TweetsToJSON(StreamListener):
             }
             logger.info("Got the tweet details, writing to JSON file")
             self.writeJSONFile(twitterDetails)
+            if time.time() - self.startTime > self.timeOut:
+                logger.info("Script has executed for the maximum allowed time, moving the current processing file to processed directory")
+                self.moveProcessedJSON()
+                return False
+            return True
 
         except KeyError:
             logger.warning("Warn - Required fields does not exist")

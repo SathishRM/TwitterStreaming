@@ -1,4 +1,5 @@
 import argparse
+from time import sleep
 from tweepy import OAuthHandler, Stream
 from util.appconfigreader import AppConfigReader
 from util.applogger import getAppLogger
@@ -25,6 +26,7 @@ if __name__ == '__main__':
         jsonDir = appCfg['JSON_DIR']
         processedDir = appCfg['PROCESSED_FILES']
         jsonMaxSize = int(appCfg['JSON_MAX_SIZE'])
+        maxRunTime = int(appCfg['MAX_RUN_TIME'])
     else:
         logger.error("Error - Application config are missing")
         raise SystemExit(1)
@@ -39,6 +41,6 @@ if __name__ == '__main__':
 
     auth = OAuthHandler(consumerKey, consumerSecret)
     auth.set_access_token(accessToken, accessSecret)
-    tweetListener = TweetsToJSON(jsonDir, jsonMaxSize, processedDir)
+    tweetListener = TweetsToJSON(jsonDir, jsonMaxSize, processedDir, maxRunTime)
     tweetStreaming = Stream(auth, tweetListener)
-    tweetStreaming.filter(track=[args.searchWords])
+    tweetStreaming.filter(track=[args.searchWords], is_async=True)

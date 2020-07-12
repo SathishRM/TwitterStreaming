@@ -4,6 +4,7 @@ from tweepy import OAuthHandler, Stream
 from util.appconfigreader import AppConfigReader
 from util.applogger import getAppLogger
 from tweetstoJSON import TweetsToJSON
+from tweetsToKafka import TweetsToKafka
 
 if __name__ == '__main__':
     logger = getAppLogger(__name__)
@@ -31,6 +32,15 @@ if __name__ == '__main__':
         logger.error("Error - Application config are missing")
         raise SystemExit(1)
 
+    if 'KAFKA' in appConfigReader.config:
+        appCfg = appConfigReader.config['KAFKA']
+        serverName = appCfg['SERVER_NAME']
+        port = appCfg['PORT']
+        topic = appCfg['TOPIC']
+    else:
+        logger.error("Error - Kafka details are not found in the config file")
+        raise SystemExit(1)
+
     # Get the words list to search in tweets
     argParser = argparse.ArgumentParser("List of search words")
     argParser.add_argument("-s", "--searchWords",
@@ -41,6 +51,8 @@ if __name__ == '__main__':
 
     auth = OAuthHandler(consumerKey, consumerSecret)
     auth.set_access_token(accessToken, accessSecret)
-    tweetListener = TweetsToJSON(jsonDir, jsonMaxSize, processedDir, maxRunTime)
+    # tweetListener = TweetsToJSON(jsonDir, jsonMaxSize, processedDir, maxRunTime)
+    # tweetStreaming = Stream(auth, tweetListener)
+    tweetListener = TweetsToKafka(serverName+':'+port, topic)
     tweetStreaming = Stream(auth, tweetListener)
     tweetStreaming.filter(track=[args.searchWords], is_async=True)

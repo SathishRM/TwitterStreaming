@@ -1,5 +1,6 @@
-### Look for tweets with a list of words using Tweepy and capture it in a JSON file.
+### Look for tweets with a list of words using Tweepy and capture it either in a JSON file or a topic in KAFKA.
 
+Toggle between Kafka and JSON file by calling the respective class in the client program.
 Tweets are appended to a JSON file upto the size mentioned in the application properties. Once it reaches threshold, the file will be moved and a new file will be created.
 
 Look at the file **requirements.txt** for any external library required by the script. Make sure those are installed first.
